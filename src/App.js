@@ -1,24 +1,27 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Login from './components/Login/Login';
+import Notes from './components/Notes/Notes';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
+  const [IsConnected, setIsConnected] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [token, setToken] = useState(""); 
+  const [UserInfo,setUserInfo]=useState("");
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {IsConnected ? (
+        <>
+          <Navbar setSearchQuery={setSearchQuery} setIsConnected={setIsConnected} />
+          <Notes UserInfo={UserInfo} token={token}  searchQuery={searchQuery} />
+        </>
+      ) : (
+        <Login setToken={setToken}  setIsConnected={setIsConnected} setUserInfo={setUserInfo}/>
+      )}
+    </>
   );
 }
 

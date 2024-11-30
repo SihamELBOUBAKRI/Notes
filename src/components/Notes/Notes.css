@@ -1,0 +1,24 @@
+#edit,#trash{
+    width: 20px;
+    height: 20px;
+}.Notes {
+    padding: 20px;
+  }
+  
+  .notes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .note-card {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .note-card h3 {
+    margin-top: 0;
+  }
+  
