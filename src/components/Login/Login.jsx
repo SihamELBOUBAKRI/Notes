@@ -37,7 +37,11 @@ const Login = ({ setToken,setIsConnected, setUserInfo }) => {
 
   return (
     <div className="Login">
+      
       <form onSubmit={handleLoginClick}>
+        <div className="greeting">
+          <h1 className="salutation">Hello  <img className="hi" src="./images/smile.png"/></h1>
+        </div>
         <input
           type="text"
           value={cin}

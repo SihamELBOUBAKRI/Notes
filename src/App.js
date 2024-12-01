@@ -15,8 +15,8 @@ function App() {
     <>
       {IsConnected ? (
         <>
-          <Navbar setSearchQuery={setSearchQuery} setIsConnected={setIsConnected} />
-          <Notes UserInfo={UserInfo} token={token}  searchQuery={searchQuery} />
+          <Navbar UserInfo={UserInfo} setSearchQuery={setSearchQuery} setIsConnected={setIsConnected} />
+          <Notes  token={token}  searchQuery={searchQuery} />
         </>
       ) : (
         <Login setToken={setToken}  setIsConnected={setIsConnected} setUserInfo={setUserInfo}/>

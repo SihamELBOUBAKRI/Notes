@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
-const Navbar = ({ setSearchQuery, setIsConnected }) => {
+const Navbar = ({UserInfo ,setSearchQuery, setIsConnected }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -15,6 +15,9 @@ const Navbar = ({ setSearchQuery, setIsConnected }) => {
 
   return (
     <div className="Navbar">
+      <div className="greeting">
+        <h1 className="salutation"><img className="hi" src="./images/smile.png"/>  Hello, {UserInfo?.userfirstname || "Guest"}</h1>
+      </div>
       <input
         type="text"
         placeholder="Search notes..."

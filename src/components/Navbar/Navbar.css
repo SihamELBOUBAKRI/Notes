@@ -1,25 +1,53 @@
 .Navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: #f4f4f4;
-  }
-  
-  .Navbar input {
-    flex: 1;
-    margin-right: 10px;
-    padding: 8px;
-  }
-  
-  .Navbar button {
-    padding: 8px 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .Navbar button:hover {
-    background-color: #0056b3;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #f4f4f4;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.Navbar input {
+  padding: 10px;
+  width: 400px;
+  height: 45px;
+  border-radius: 25px;
+  border: 2px solid #606c38;
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.Navbar input:focus {
+  border-color: #283618;
+}
+
+.Navbar button {
+  padding: 10px 15px;
+  background-color: #606c38;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.Navbar button:hover {
+  background-color: #283618;
+}
+
+.salutation {
+  color: #606c38;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.hi {
+  width: 40px;
+  margin-right: 10px;
+}

@@ -1,0 +1,78 @@
+.Login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #e9edc9;
+    padding: 20px;
+  }
+  
+  .Login form {
+    width: 100%;
+    max-width: 400px;
+    background-color: #f4f4f4;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .Login form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #606c38;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  .Login form input:focus {
+    border-color: #283618;
+  }
+  
+  .Login form button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #606c38;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .Login form button:hover {
+    background-color: #283618;
+  }
+  
+  .Login form button:active {
+    transform: scale(0.98);
+  }
+  
+  .Login h2 {
+    margin-bottom: 20px;
+    color: #283618;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .Login p {
+    font-size: 14px;
+    color: #606c38;
+  }
+  .Login .greeting img{
+    width: 60px;
+    height: 60px;
+  }
+  .Login .greeting h1{
+    font-size: 50px;
+  }
+  
