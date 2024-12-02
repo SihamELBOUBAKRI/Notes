@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./Notes.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { format } from "date-fns";
+import axiosApi from "../Axios";
 
 const Notes = ({ token, searchQuery }) => {
   const [notes, setNotes] = useState([]);
@@ -17,10 +17,8 @@ const Notes = ({ token, searchQuery }) => {
   useEffect(() => {
     const getNotes = async () => {
       try {
-        const res = await axios.get("https://notes.devlop.tech/api/notes", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const notesWithFormattedDate = res.data.map((note) => {
+        const res = await axiosApi.get("/notes");
+        const notesWithFormattedDate = res.map((note) => {
           const cleanedDate = note.date.replace(".000000Z", "Z");
           const formattedDate = format(new Date(cleanedDate), "MMM d, HH:mm");
           return {
@@ -51,14 +49,12 @@ const Notes = ({ token, searchQuery }) => {
     if (formMode === "update") {
       // Update Note
       try {
-        const res = await axios.put(
-          `https://notes.devlop.tech/api/notes/${editingNoteId}`,
-          { title: newNoteTitle, content: newNoteContent },
-          { headers: { Authorization: `Bearer ${token}` } }
+        const res = await axiosApi.put(`/notes/${editingNoteId}`,
+          { title: newNoteTitle, content: newNoteContent }
         );
         setNotes((prevNotes) =>
           prevNotes.map((note) =>
-            note.id === editingNoteId ? { ...res.data } : note
+            note.id === editingNoteId ? { ...res} : note
           )
         );
       } catch (err) {
@@ -67,12 +63,8 @@ const Notes = ({ token, searchQuery }) => {
     } else {
       // Add Note
       try {
-        const res = await axios.post(
-          "https://notes.devlop.tech/api/notes",
-          { title: newNoteTitle, content: newNoteContent },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setNotes((prevNotes) => [...prevNotes, res.data]);
+        const res = await axiosApi.post("/notes",{ title: newNoteTitle, content: newNoteContent });
+        setNotes((prevNotes) => [...prevNotes, res]);
       } catch (err) {
         console.error("Failed to add note: ", err);
       }
@@ -86,9 +78,7 @@ const Notes = ({ token, searchQuery }) => {
   // Delete Note
   const deleteNote = async (id) => {
     try {
-      await axios.delete(`https://notes.devlop.tech/api/notes/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axiosApi.delete(`/notes/${id}`);
       setNotes(notes.filter((note) => note.id !== id));
     } catch (err) {
       console.error("Failed to delete note: ", err);

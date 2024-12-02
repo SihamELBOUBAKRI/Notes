@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosApi from "../Axios";
 import "./Login.css";
 
 const Login = ({ setToken,setIsConnected, setUserInfo }) => {
@@ -10,25 +10,20 @@ const Login = ({ setToken,setIsConnected, setUserInfo }) => {
   const handleLoginClick = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://notes.devlop.tech/api/login", {
-        cin,
-        password,
+      const res = await axiosApi.post("/login", { cin, password });
+
+      setUserLoggedIn(true);
+      setIsConnected(true);
+      setToken(res.token);
+      setUserInfo({
+        userfirstname: res.user.first_name,
+        userlastname: res.user.last_name,
       });
 
-      if (res.status === 200) {
-        setUserLoggedIn(true);
-        setIsConnected(true);
-        setToken(res.data.token);
-        setUserInfo({
-          userfirstname: res.data.user.first_name,
-          userlastname: res.data.user.last_name,
-        });
-
-        // Save CIN and password to localStorage
-        localStorage.setItem("cin", cin);
-        localStorage.setItem("password", password);
-        localStorage.setItem("token", res.data.token);
-      }
+      // Save CIN, password, and token to localStorage
+      localStorage.setItem("cin", cin);
+      localStorage.setItem("password", password);
+      localStorage.setItem("token", res.token);
     } catch (err) {
       console.log("Login failed");
       setUserLoggedIn(false);
