@@ -133,7 +133,7 @@ const Navbar = ({UserInfo ,setSearchQuery, setIsConnected }) => {
             aria-atomic="true"
           >
             <div className="toast-header">
-              <strong className="me-auto">Bootstrap</strong>
+              <strong className="me-auto">SUCCESS</strong>
               <small>Now</small>
               <button
                 type="button"

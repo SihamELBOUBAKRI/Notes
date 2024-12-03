@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { format } from "date-fns";
 import axiosApi from "../Axios";
+import Select from 'react-select'
 
 const Notes = ({ token, searchQuery }) => {
   const [notes, setNotes] = useState([]);
@@ -12,6 +13,27 @@ const Notes = ({ token, searchQuery }) => {
   const [newNoteTitle, setNewNoteTitle] = useState("");
   const [newNoteContent, setNewNoteContent] = useState("");
   const [editingNoteId, setEditingNoteId] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]); // State for selected users
+
+// Fetch users when the component is mounted
+useEffect(() => {
+  const fetchUsers = async () => {
+    try {
+      const res = await axiosApi.get("/users");
+      const userOptions = res.map((user) => ({
+        value: user.id, // Map `id` to `value`
+        label: `${user.first_name} ${user.last_name}`, // User name
+      }));
+      setUsers(userOptions);
+    } catch (err) {
+      console.error("Failed to fetch users: ", err);
+    }
+  };
+
+  fetchUsers();
+}, []);
+
 
   // Fetch Notes
   useEffect(() => {
@@ -63,8 +85,8 @@ const Notes = ({ token, searchQuery }) => {
     } else {
       // Add Note
       try {
-        const res = await axiosApi.post("/notes",{ title: newNoteTitle, content: newNoteContent });
-        setNotes((prevNotes) => [...prevNotes, res]);
+        const res = await axiosApi.post("/notes",{ title: newNoteTitle, content: newNoteContent ,shared_with: selectedUsers.map((user) => user.value)});
+        setNotes((prevNotes) => [ res,...prevNotes]);
       } catch (err) {
         console.error("Failed to add note: ", err);
       }
@@ -73,6 +95,7 @@ const Notes = ({ token, searchQuery }) => {
     setNewNoteTitle("");
     setNewNoteContent("");
     setEditingNoteId(null);
+    setSelectedUsers([]);
   };
 
   // Delete Note
@@ -164,6 +187,21 @@ const Notes = ({ token, searchQuery }) => {
                 required
               ></textarea>
             </div>
+
+            {formMode === "add" && (<div className="mb-3">
+              <label htmlFor="note-shared-with" className="form-label">
+                Share With
+              </label>
+              <Select
+                id="note-shared-with"
+                options={users} // Options are the fetched users
+                value={selectedUsers} // Selected users
+                onChange={(selectedOptions) => setSelectedUsers(selectedOptions)} // Update state
+                isMulti // Allow multiple selection
+                placeholder="Select users to share with"
+              />
+            </div>)}
+
             <div className="form-buttons">
               <button type="submit" className="save-btn btn btn-success">
                 {formMode === "add" ? "Save Note" : "Update Note"}
