@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { format } from "date-fns";
 import axiosApi from "../Axios";
-import Select from 'react-select'
+import Select from 'react-select';
 
-const Notes = ({ token, searchQuery }) => {
+const Notes = ({ token, searchQuery , setLoading}) => {
   const [notes, setNotes] = useState([]);
   const [filteredNotes, setFilteredNotes] = useState([]);
   const [formMode, setFormMode] = useState("add"); // "add" or "update"
@@ -49,6 +49,7 @@ useEffect(() => {
           };
         });
         setNotes(notesWithFormattedDate);
+        console.log(notes)
       } catch (err) {
         console.error("Failed to fetch notes: ", err);
       }
@@ -68,6 +69,7 @@ useEffect(() => {
   // Add or Update Note Submission
   const onFormSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (formMode === "update") {
       // Update Note
       try {
@@ -81,14 +83,19 @@ useEffect(() => {
         );
       } catch (err) {
         console.error("Failed to update note: ", err);
+      } finally {
+        setLoading(false); // Stop loading
       }
     } else {
       // Add Note
+      setLoading(true);
       try {
         const res = await axiosApi.post("/notes",{ title: newNoteTitle, content: newNoteContent ,shared_with: selectedUsers.map((user) => user.value)});
         setNotes((prevNotes) => [ res,...prevNotes]);
       } catch (err) {
         console.error("Failed to add note: ", err);
+      }finally {
+        setLoading(false); // Stop loading
       }
     }
 
@@ -100,9 +107,11 @@ useEffect(() => {
 
   // Delete Note
   const deleteNote = async (id) => {
+    setLoading(true);
     try {
       await axiosApi.delete(`/notes/${id}`);
       setNotes(notes.filter((note) => note.id !== id));
+      setLoading(false);
     } catch (err) {
       console.error("Failed to delete note: ", err);
     }
@@ -118,6 +127,10 @@ useEffect(() => {
     bootstrapOffcanvas.show(); // Show the offcanvas
   };
 
+
+
+  
+
   // Handle Edit Note
   const handleEditNote = (note) => {
     setFormMode("update");
@@ -129,7 +142,11 @@ useEffect(() => {
     bootstrapOffcanvas.show(); // Show the offcanvas
   };
 
+  const getUserInitial = (user) => user.first_name.charAt(0).toUpperCase();
+  const getFullName = (user) => `${user.first_name} ${user.last_name}`;
+
   return (
+    
     <div className="list-container">
       {/* Add Note Button */}
       <img
@@ -138,7 +155,7 @@ useEffect(() => {
         type="button"
         onClick={handleAddNote}
       />
-
+      
       {/* Offcanvas Form */}
       <div
         className="offcanvas offcanvas-start"
@@ -223,7 +240,7 @@ useEffect(() => {
       <div className="notes-list">
         {filteredNotes.length > 0 ? (
           filteredNotes.map((note) => (
-            <div className="note-card" key={note.id}>
+            <div key={note.id} className={note.is_owner ? "note-owner" : "note-other"}>
               <div className="note-header">
                 <h2>{note.title}</h2>
                 <div className="note-actions">
@@ -248,7 +265,16 @@ useEffect(() => {
               <div className="note-content">
                 <p>{note.content}</p>
               </div>
-              <p className="note-date">{note.formattedDate}</p>
+              <p className={note.is_owner ? "date-owner" : "date-other"}>{note.formattedDate}</p>
+
+              <div className="shared-users">
+                {note.shared_with.map((user, index) => (
+                  <div key={index} className="user-circle" title={getFullName(user)}>
+                    {getUserInitial(user)}
+                  </div>
+                ))}
+              </div>
+
             </div>
           ))
         ) : (

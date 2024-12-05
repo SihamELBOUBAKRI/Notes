@@ -1,78 +1,127 @@
+/* General background styles */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f1f3f4; /* Soft neutral background */
+}
+
+/* Login Form Styling */
 .Login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #e9edc9;
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f1f3f4;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* Form Styling with Smooth Up and Down Animation */
+.Login form {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  animation: formMoveUpDown 1.5s ease-out; /* Smooth up and down animation */
+}
+
+/* Smooth Up and Down Animation */
+@keyframes formMoveUpDown {
+  0% {
+    transform: translateY(20px); /* Start from below */
+    opacity: 0;
   }
-  
-  .Login form {
-    width: 100%;
-    max-width: 400px;
-    background-color: #f4f4f4;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  30% {
+    transform: translateY(0); /* Move to its original position */
+    opacity: 1;
   }
-  
-  .Login form input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 2px solid #606c38;
-    border-radius: 25px;
-    font-size: 16px;
-    outline: none;
-    transition: border-color 0.3s ease-in-out;
+  50% {
+    transform: translateY(-10px); /* Slight upward movement */
   }
-  
-  .Login form input:focus {
-    border-color: #283618;
+  70% {
+    transform: translateY(5px); /* Slight downward correction */
   }
-  
-  .Login form button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #606c38;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+  100% {
+    transform: translateY(0); /* Settle back to original position */
   }
-  
-  .Login form button:hover {
-    background-color: #283618;
-  }
-  
-  .Login form button:active {
-    transform: scale(0.98);
-  }
-  
-  .Login h2 {
-    margin-bottom: 20px;
-    color: #283618;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .Login p {
-    font-size: 14px;
-    color: #606c38;
-  }
-  .Login .greeting img{
-    width: 60px;
-    height: 60px;
-  }
-  .Login .greeting h1{
-    font-size: 50px;
-  }
-  
+}
+
+/* Form Inputs */
+.Login form input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 2px solid #c1d3a7; /* Light green border */
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease-in-out, background-color 0.3s ease;
+}
+
+/* Focused Input Styles */
+.Login form input:focus {
+  border-color: #6b7c44; /* Darker green */
+  background-color: #f2f8e1; /* Soft green background */
+}
+
+/* Button Styling */
+.Login form button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #6b7c44; /* Muted green */
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+}
+
+/* Button Hover Effects */
+.Login form button:hover {
+  background-color: #4f5d28; /* Darker green on hover */
+}
+
+/* Button Active Effects */
+.Login form button:active {
+  transform: scale(0.98); /* Slight button shrink */
+}
+
+/* Form Header Styling */
+.Login h2 {
+  margin-bottom: 20px;
+  color: #4f5d28; /* Dark green for the header */
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Form Paragraph Styling */
+.Login p {
+  font-size: 14px;
+  color: #8a9e58; /* Lighter green for text */
+}
+
+/* Greeting image styling */
+.Login .greeting img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+/* Greeting text styling */
+.Login .greeting h1 {
+  font-size: 50px;
+  color: #4f5d28; /* Dark green for greeting text */
+  font-weight: bold;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}

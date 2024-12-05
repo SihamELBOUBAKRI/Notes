@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import axiosApi from "../Axios";
 import "./Login.css";
 
-const Login = ({ setToken,setIsConnected, setUserInfo }) => {
+const Login = ({ setToken,setIsConnected, setUserInfo ,setLoading}) => {
   const [cin, setCin] = useState(localStorage.getItem("cin") || "");
   const [password, setPassword] = useState(localStorage.getItem("password") || "");
   const [userLoggedIn, setUserLoggedIn] = useState(false);
 
   const handleLoginClick = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await axiosApi.post("/login", { cin, password });
 
@@ -24,6 +25,7 @@ const Login = ({ setToken,setIsConnected, setUserInfo }) => {
       localStorage.setItem("cin", cin);
       localStorage.setItem("password", password);
       localStorage.setItem("token", res.token);
+      setLoading(false);
     } catch (err) {
       console.log("Login failed");
       setUserLoggedIn(false);

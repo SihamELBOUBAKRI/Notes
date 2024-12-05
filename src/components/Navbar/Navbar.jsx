@@ -10,6 +10,11 @@ const Navbar = ({UserInfo ,setSearchQuery, setIsConnected }) => {
   const [newPasswordConfirmation, setNewPasswordConfirmation] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showToast, setshowToast] = useState(false);
+  const [PasswordConfirmation, setPasswordConfirmation] = useState(false);
+  const [PasswordERROR, setPasswordERROR] = useState(false);
+
+  
+
 
   // Function to toggle the modal
   const toggleModal = () => setShowModal(!showModal);
@@ -19,8 +24,7 @@ const Navbar = ({UserInfo ,setSearchQuery, setIsConnected }) => {
     e.preventDefault();
 
     if (newPassword !== newPasswordConfirmation) {
-      alert("New passwords do not match!");
-      return;
+      setPasswordConfirmation(true);
     }
 
     try {
@@ -29,7 +33,6 @@ const Navbar = ({UserInfo ,setSearchQuery, setIsConnected }) => {
         new_password: newPassword,
         new_password_confirmation: newPasswordConfirmation,
       });
-      console.log(response)
 
       if (response.message === "Password updated successfully") {
         setshowToast(true); 
@@ -45,8 +48,7 @@ const Navbar = ({UserInfo ,setSearchQuery, setIsConnected }) => {
         }, 3000);
       }
     } catch (err) {
-      console.error('Password change failed:', err);
-      alert('Error updating password. Please try again.');
+      setPasswordERROR(true);
     }
   };
 
@@ -114,6 +116,8 @@ const Navbar = ({UserInfo ,setSearchQuery, setIsConnected }) => {
                       onChange={(e) => setNewPasswordConfirmation(e.target.value)}
                       required
                     />
+                    {PasswordConfirmation && (<span className="warning">The new password and confirmation password do not match. Please try again.</span>)}
+                    {PasswordERROR && (<span className="warning">The old password you entered is incorrect. Please try again.</span>)}
                   </div>
                   <button type="submit" className="btn btn-success">Change Password</button>
                  </form>
